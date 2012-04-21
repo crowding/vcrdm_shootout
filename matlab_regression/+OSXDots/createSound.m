@@ -2,6 +2,9 @@ function [freq beepmatrix] = createSound
 % create sound
 % adapted from JP's initializeSounds
 % MKMK Jul 2006
+
+import OSXDots.*;
+import Psychtoolbox.*;
 samplingRate = 22254.545454; 					% same default as SND (from makebeep)
 freq = 500;
 duration = 0.2;

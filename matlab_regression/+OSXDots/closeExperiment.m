@@ -1,4 +1,6 @@
 function closeExperiment
+import OSXDots.*;
+import Psychtoolbox.*;
 % closeExperiment
 % closes the screen, returns priority to zero, starts the update process,
 % and shows the cursor.

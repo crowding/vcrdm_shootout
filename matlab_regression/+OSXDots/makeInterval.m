@@ -7,6 +7,10 @@ function interval = makeInterval(typeInt,minNum,maxNum,meanNum)
 % maxNum = maximum value
 % meanNum = mean of distribution
 % MKMK March 2006
+
+import OSXDots.*;
+import Psychtoolbox.*;
+
 typeInt;
 minNum;
 

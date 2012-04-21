@@ -5,6 +5,8 @@
 
 % beware, things are not converted for REX (things in decimal format if
 % should be)
+import OSXDots.*;
+import Psychtoolbox.*;
 
 clear all;
 try

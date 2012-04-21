@@ -1,0 +1,28 @@
+Peter Meilstrup, 2012
+
+To translate the VCRDM algorithm into other languages, or even extend
+it safely, we must first obtain the ground truth of that the existing
+VCRDM code actually _does_. That is, we need a regression test to
+verify that future algorithms do the same thing as the present
+algorithm.
+
+The input to the VCRDM algorithm is a stream of random numbers, and
+the output is a set of dot positions, organized by frame. Therefore to
+characterize the VCRDM algorithm, we must capture examples of how the
+dots algorithm transforms random number draws into plotted dot
+positions.
+
+To do this I have replaced the rand() and Screen() functions with stubs
+that capture and record their input and output, while leaving the rest of
+the original VCRDM code unmolested (except for some package declarations
+that make it possible to insert these stubs.)
+
+To verify the captured data, I use the stubs to feed the same sequence
+of random numbers back into the VCRDM routines and confirm that the
+same dot positions are plotted.
+
+In future, even when both MATLAB and Psychtoolbox have been abandoned,
+this regression testing data will remain.
+
+Just run "make" to exercise the VCRDM algorithm and produce the
+regression testing data.

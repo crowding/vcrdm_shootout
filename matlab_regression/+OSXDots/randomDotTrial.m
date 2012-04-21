@@ -1,4 +1,7 @@
 function dotInfo = randomDotTrial(dotInfo, errorcnt)
+
+import OSXDots.*;
+import Psychtoolbox.*;
 % choose the next trial randomly, unless already chosen
 
 

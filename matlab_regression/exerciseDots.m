@@ -1,8 +1,10 @@
 function exerciseDots
-    %Collects some "fake" dots data.
+    import OSXdots.*
+
+    %Collects some "fake" dots data, by capturing calls to rand() and
+    %Screen.
     
     try
-        clear all
         %initialize the screen
         % touchscreen is 34, laptop is 32, viewsonic is 38
         screenInfo = openExperiment(34,50,0);

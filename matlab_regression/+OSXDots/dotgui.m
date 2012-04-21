@@ -1,5 +1,7 @@
 function dotgui
 
+import OSXDots.*;
+import Psychtoolbox.*;
 dotInfo = [];
 [fname, fpath] = uigetfile('*.mat','Select the config file');
 

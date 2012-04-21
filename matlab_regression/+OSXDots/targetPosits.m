@@ -7,6 +7,8 @@ function [newx newy] = targetPosits(x, y, direction)
 % with center at xy(2,-1). Only looks at the first to x and y coordinates
 % for the distance measure, but makes as many targets as directions given
 % MKMK July 2006
+import OSXDots.*;
+import Psychtoolbox.*;
 
 distance = sqrt((x(2) - x(1)).^2 + (y(2) - y(1)).^2);
 newy = (distance.*sind(direction) + y(1))';

@@ -11,6 +11,9 @@ function screenInfo = openExperiment(monWidth, viewDist, curScreen)
 % Used by both my dot code and my touch code.
 % MKMK July 2006
 
+import OSXDots.*;
+import Psychtoolbox.*;
+
 mfilename
 % 1. SEED RANDOM NUMBER GENERATOR
 screenInfo.rseed = [];

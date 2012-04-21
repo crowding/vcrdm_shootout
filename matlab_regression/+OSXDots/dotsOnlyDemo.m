@@ -4,8 +4,10 @@
 %
 % tests creating targets according to dots directions
 % does not require response, just shows some targets and then the dots
+import OSXDots.*;
+import Psychtoolbox.*;
 try
-    clear all
+    %clear all
     %initialize the screen
     % touchscreen is 34, laptop is 32, viewsonic is 38
     screenInfo = openExperiment(34,50,0);

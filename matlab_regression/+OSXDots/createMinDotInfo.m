@@ -9,6 +9,8 @@ function dotInfo = createMinDotInfo(inputtype)
 % created June 2006 MKMK
 
 %mfilename
+import OSXDots.*;
+import Psychtoolbox.*;
 
 if nargin < 1
     %inputtype = 1; % use keyboard

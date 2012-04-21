@@ -21,6 +21,9 @@
 % error to the same side 3 times, will keep going to that side until
 % subject does the trial correctly, then returns to random.
 
+import OSXDots.*;
+import Psychtoolbox.*;
+
 clear all;
 
 done = 0;

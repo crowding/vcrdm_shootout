@@ -3,6 +3,9 @@ function targets = makeDotTargets(screenInfo, dotInfo)
 % keyDots, but not necessary for using dots in experiments in general. For
 % a little more info, see createDotInfo
 
+import OSXDots.*;
+import Psychtoolbox.*;
+
 if dotInfo.auto(1) == 1 % 1 set manually, take directly from tarXY
     xpos = dotInfo.tarXY(:,1);
     ypos = dotInfo.tarXY(:,2);

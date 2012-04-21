@@ -4,6 +4,8 @@ function select = selectTargets(screenInfo, xy, diamTar)
 % is within the boundaries of the targets.
 % translate the coordinates, move the center and invert y, and change from
 % visual degrees to pixels
+import OSXDots.*;
+import Psychtoolbox.*;
 
 temp = ones(size(xy));
 temp = [screenInfo.center(1).*temp(:,1) screenInfo.center(2).*temp(:,2)];

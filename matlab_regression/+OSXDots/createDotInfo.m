@@ -6,6 +6,8 @@ function dotInfo = createDotInfo(inputtype)
 
 % created June 2006 MKMK
 
+import OSXDots.*;
+import Psychtoolbox.*;
 mfilename
 
 if nargin < 1

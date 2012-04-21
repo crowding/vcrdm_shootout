@@ -330,7 +330,7 @@ No connections to the outside world.
 \end_layout
 
 \begin_layout Description
-For example, SMI Research publishes libraries to use their Eyelink toolbox
+For example, SR Research publishes libraries to use their Eyelink toolbox
  computers this ought not to be an issue at all The computers and hardware
  they are using are not as limited as the Matlab runtime they write experiments
  in.
