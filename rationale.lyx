@@ -1,0 +1,361 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Description
+\end_layout
+
+\begin_layout Standard
+This project aims to implement a simple psychophysical experiment in as
+ many languages and libraries as I deem reasonable.
+\end_layout
+
+\begin_layout Subsection
+Motivation
+\end_layout
+
+\begin_layout Standard
+Many labs perceive some benifit to standardizing on one tool, even though
+ most experiments are either constructed from whole cloth or derived from
+ previous experiments.
+ In the first case, there is nothing forcing you to use something that has
+ previously been used; in the second case, the decision has already been
+ made.
+ Neither case offers a compelling benefit for different experiments to use
+ the same tools.
+ The choice of standard is often arbitrary, based on what your neighbor
+ down the hall chose, or the first thing you tried.
+ As a consequence, investigators do not consider the alternatives closely,
+ and often find themselves (to my perception) to be stuck on truly awful
+ choices, that they are reluctant to leave because they expect any alternative
+ to be just as bad, and they view the time they have spent putting up with
+ and working around their tools' shortcomings to somehow be an 
+\emph on
+investment
+\emph default
+.
+ When I am charitable, I describe this irrational behavior in terms of the
+ well known 
+\emph on
+sunk cost fallacy
+\emph default
+; when I feel less charitable, 
+\emph on
+Stockholm syndrome
+\emph default
+ comes to mind.
+ It would benefit anyone to try something new once in a while.
+ 
+\end_layout
+
+\begin_layout Standard
+Within our lab we have also used other systems for conducting visual and
+ physiological experiments.
+ One example is Rex.
+ There are technical inconveniences to using Rex in that While Rex does
+ a decent job at experiment control, it does not have any facilities for
+ generating visual stimuli.
+ Therefore our rigs that use Rex usually contain a secondary, 
+\begin_inset Quotes eld
+\end_inset
+
+slave
+\begin_inset Quotes erd
+\end_inset
+
+ computer running MATLAB and the Psychtoolbox, controlled via the serial
+ or UDP ports.
+ This introduces a difficult coordination problem.
+ For example, one of my experiments involced the oculomotor pursuit of a
+ target that travels in a circle.
+ Implementing this experiment in Rex would mean that Rex had to constantly
+ know the instantaneous target location, in order to check -- the code for
+ the target's movement would have to be implemented twice, even if the Rex
+ and Psychtoolbox machines could be reliably synched.
+\end_layout
+
+\begin_layout Standard
+For other experiments we have used Expo.
+ Expo offers an easy way to construct basic stimuli and experiment sequences.
+ However, implementing stimuli like variable coherence random dots requires
+ writing a plugin for Rex, which is not straightforward -- indeed we will
+ see it is less straightforward than many alternatives.
+ A constant obstacle we have found with Expo is the difficulty of interfacing
+ new input devices.
+ For example, we have attempted to build experiments where the subject gives
+ responses using a touch screen, or where hand movements are optically tracked.
+ The input paradigm of Expo is structured around analog inputs such as ocuomotor
+ search coils.
+ So even though our optical eye trackers produce a digital output, sent
+ over an Ethernet connection, referenced directly to screen coordinates,
+ Expo can only take the analog input; this introduces an extra, unnecessary
+ calibration step.
+ Our usual solution is to introduce yet another computer to the rig, whose
+ sole job is to spin collecting data from the touch streen or optical tracker
+ and output analog voltages.
+ This extra computer introduces extra calibration and latency problems to
+ the experiment, in addition to being a just plain silly waste of hardware.
+\end_layout
+
+\begin_layout Standard
+For my human psychophysics experiments I have used MATAB with the Psychtoolbox.
+ There are a number of drawbacks to this system.
+ In brief, experiment control demands a programming system with decent speed,
+ with some degree of concurrency (enouch to collect inputs while synchronizing
+ screen refereshes, e.g.), and with a flexible, user-friendly programming
+ model.
+ MATLAB, as it turns out, meets none of these desiderata.
+ As capable as some of the code in Psychtoolbox may be, it is hamstrung
+ by its the host system.
+\end_layout
+
+\begin_layout Section
+What do we want?
+\end_layout
+
+\begin_layout Standard
+The most important thing anyone ought to desire from this system (or any
+ system) is ease.
+ It should be easy to construct the visual stimuli; it should be easy to
+ write; it should be easy to debug an experiment that is not behaving as
+ it should it should be easy to extend the system to new input or stimulus
+ devices.
+\end_layout
+
+\begin_layout Standard
+Make no mistake though, automated experiment control is, necessarily, a
+ programming problem.
+ If we aren't injecting something new into our experiment, then can our
+ experiment really be doing much that's interesting? Ease of extensibility
+ is probably the most important ease of all.
+ Therefore, most of the avenues we will consider will be 
+\emph on
+programming languages
+\emph default
+ and 
+\emph on
+libraries
+\emph default
+, and we will be avoiding 
+\begin_inset Quotes eld
+\end_inset
+
+graphically construct your stimulus
+\begin_inset Quotes erd
+\end_inset
+
+ tools that promise to in exchange for making it either a nightmare or impossibl
+e to connect, say, a new touch screen for whcih there isn't a prepackaged
+ driver.
+\end_layout
+
+\begin_layout Standard
+We like openly sharing code and data, and believe that openly sharing both
+ the implementation and results of an experiment is necessary for science
+ to maintain its core value of 
+\emph on
+reproducibility
+\emph default
+.
+ Therefore, we favor freely available tools, and consider restrictively
+ licensed tools reluctantly.
+\end_layout
+
+\begin_layout Standard
+What do we want to write when we write an experiment? 
+\end_layout
+
+\begin_layout Standard
+When we describe in our writing how a task is set up, we tend to produce
+ 
+\end_layout
+
+\begin_layout Standard
+A sequence of states, and conditions to meet to transition between these
+ states.
+\end_layout
+
+\begin_layout Subsection
+What's wrong with what we have?
+\end_layout
+
+\begin_layout Standard
+MATLAB and the Psychtoolbox have several drawbacks.
+\end_layout
+
+\begin_layout Description
+Awkward coding model.
+ The typical Psychtoolbox program, such as you can find several examples
+ of in the Psychtoolbox itself, follows the "indefinite collection of loops"
+ paradigm.
+ This is a far cry from the conceptual model we sketched above to the left.
+ 
+\end_layout
+
+\begin_layout Description
+While a callback--based programming model is possible, most Psychtoolbox
+ programs in practice revolve around the "indefinite collection of loops"
+ paradigm.
+ This makes tasks hard to evolve and bug-prone.
+ Every screen-drawing loop is written anew, and usually wrong (my experience
+ looking through other people's Psychtoolbox code shows that 
+\end_layout
+
+\begin_layout Description
+Lame runtime.
+ MATLAB is essentially a fancy graphical calculator and front-end to Fortran
+ numerics libraries, that has grown pretensions toward programming.
+ This is the system which Psychtoolbox attempts to press into the service
+ of a semi-real-time experiment control system.
+ A poorer match between the capabilities of a runtime/language and the task
+ domain could scarcely be imagined.
+\end_layout
+
+\begin_layout Description
+Poor match of problem domain.
+ While MATLAB's array manipulation and signal processing utuilities occasionally
+ useful to generate the visual stimuli, this ends up being very little of
+ what a psychophysics program actually does.
+ And in many cases MATLAB turns out to not is not be all that useful for
+ the stimuli either; in the case of my Gabor-like motion stimuli, MATLAB
+ is far too slow to generate the stimuli at the pixel level; most of that
+ ends up being OpenGL calls to GLSL shader programs.
+\end_layout
+
+\begin_layout Description
+Most of what a Psychtoolbox program does is comuncation with outside equpment,
+ and, with some soft real time expectations (you expect to not skip any
+ frames, or if you do.
+ This has little or no overlap with MATLAB's actual strengths as a language.
+ While MATLAB may be useful in analyzing the data once collected, this is
+ a silly reason to constrain the tools used to collect original data.
+ Some experiments benefit from an ability to analyze data online, but online
+ data analysis is a different enough domain from offline analysis that there
+ is little code shared between the cases.
+\end_layout
+
+\begin_layout Description
+No concurrency.
+ Modern computers have multiple cores, and can do more than one thing at
+ a time.
+ For example, it is often impossible for a Psychtoolbox program to detect
+ accurately timed keypresses or other events that occur in the interval
+ while it's waiting for vertical sync on the monitor.
+ Psychologists often are forced to modify the experiment they want to do
+ and that their computers are fully capable of doing to build an experiment
+ that psychtoolbox allows.
+ For example, there is no possibility of doing any input or output while
+ Psychtoolbox is spinning waiting for a screen refresh to complete -- so
+ any synchronization must be done at other times.
+ This is a headache for people who want to synchronize external equipment
+ such as scanners or transcranial stimulators, not to mention people who
+ just want to poll their input devices frequently enough to get accurate
+ button press times.
+ With the recent ubiquity of multicore computers this ought to be no problem
+ at all; therefore is is time that psychologists moved to a programming
+ model with at least minimal support for concurrency.
+\end_layout
+
+\begin_layout Description
+No connections to the outside world.
+ MATLAB provides very few resources to connect to the outside world.
+ For use on Macs (the preferred platform for Psychtoolbox due mainly to
+ OS latency characteristics), the Psychtoolbox has to include buggy, unstable
+ serial port and TCP/IP toolboxes, as the Data Acquisition toolboxes are
+ not available for Mac.
+ But in general, of you have something interesting for your experiment to
+ talk to, it is exponentially more likely that someone has written Java,
+ C or Python bindings than any Matlab bindings.
+ (In theory, MATLAB can interface with Java code; in practice this is too
+ slow and the interface is too restrictive, only allowing passing primitive
+ arrays from Matlab, with no way to use callbacks which many libraries require.)
+\end_layout
+
+\begin_layout Description
+For example, SMI Research publishes libraries to use their Eyelink toolbox
+ computers this ought not to be an issue at all The computers and hardware
+ they are using are not as limited as the Matlab runtime they write experiments
+ in.
+\end_layout
+
+\begin_layout Description
+Poor performance.
+ While there appears to be some support for callback-based programming,
+ with nested functions and an Observer pattern built in to the object system,
+ one quickly finds that these additions to the MATLAB language are built
+ on a hideously slow core.
+ Moreover, hell will freeze over before MATLAB gets generators, continuations,
+ or user-addressible multithreading.
+ When I used callback-styled programming with Psychtoolbox for my thesis,
+ much of my time, started to revolve around chasing down frame skips, which
+ usually have to be remedied by replacing reusable code with specialized
+ and fixed-purpose code.
+ This is an inexcusable situation; the average psychophysics experiment
+ has the computer doing orders of magnitude less work than the typical modern
+ video game that the same computers run with alacrity.
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\end_body
+\end_document
